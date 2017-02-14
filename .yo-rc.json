@@ -1,6 +1,6 @@
 {
   "generator-jhipster": {
-    "jhipsterVersion": "4.0.2",
+    "jhipsterVersion": "4.0.3",
     "baseName": "jhgrad",
     "packageName": "io.github.pascalgrimaud",
     "packageFolder": "io/github/pascalgrimaud",
@@ -21,7 +21,6 @@
     "useSass": false,
     "clientPackageManager": "yarn",
     "applicationType": "monolith",
-    "clientFramework": "angular2",
     "testFrameworks": [
       "gatling",
       "protractor"
@@ -32,6 +31,7 @@
     "languages": [
       "en",
       "fr"
-    ]
+    ],
+    "clientFramework": "angular2"
   }
 }
