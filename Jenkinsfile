@@ -10,16 +10,16 @@ node {
     }
 
     stage('clean') {
-        sh "./gradlew clean"
+        sh "./gradlew clean --no-daemon"
     }
 
-    stage('npm install') {
-        sh "./gradlew npmInstall -PnodeInstall"
+    stage('install tools') {
+        sh "./gradlew yarn_install -PnodeInstall --no-daemon"
     }
 
     stage('backend tests') {
         try {
-            sh "./gradlew test -PnodeInstall"
+            sh "./gradlew test -PnodeInstall --no-daemon"
         } catch(err) {
             throw err
         } finally {
@@ -29,7 +29,7 @@ node {
 
     stage('frontend tests') {
         try {
-            sh "./gradlew gulp_test -PnodeInstall"
+            sh "./gradlew yarn_test -PnodeInstall --no-daemon"
         } catch(err) {
             throw err
         } finally {
@@ -38,15 +38,8 @@ node {
     }
 
     stage('packaging') {
-        sh "./gradlew bootRepackage -x test -Pprod -PnodeInstall"
+        sh "./gradlew bootRepackage -x test -Pprod -PnodeInstall --no-daemon"
         archiveArtifacts artifacts: '**/build/*.war', fingerprint: true
     }
-
-    // Uncomment the following block to add Sonar analysis.
-    /*stage('quality analysis') {
-        withSonarQubeEnv('Sonar Server') {
-            sh "./gradlew sonarqube"
-        }
-    }*/
 
 }
