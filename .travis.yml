@@ -30,6 +30,7 @@ before_install:
 install:
   - yarn install
 script:
+  - chmod +x gradlew
   - ./gradlew clean test
   - yarn test
   - ./gradlew bootRepackage -Pprod -x test
