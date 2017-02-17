@@ -21,11 +21,11 @@ before_script:
 gradle-build:
     stage: build
     script:
-        - ./gradlew compileJava -x check --no-daemon
+        - ./gradlew compileJava -x check -PnodeInstall --no-daemon
 gradle-test:
     stage: test
     script:
-        - ./gradlew test --no-daemon
+        - ./gradlew test -PnodeInstall --no-daemon
     artifacts:
         paths:
             - build/reports/tests/*
@@ -38,9 +38,11 @@ gatling-test:
     stage: test
     allow_failure: true
     script:
-        - ./gradlew gatlingRun -x cleanResources --no-daemon
+        - ./gradlew gatlingRun -x cleanResources -PnodeInstall --no-daemon
     before_script:
-        - ./gradlew npmInstall -PnodeInstall --no-daemon
+        - export GRADLE_USER_HOME=`pwd`/.gradle
+        - chmod +x gradlew
+        - ./gradlew yarn_install -PnodeInstall --no-daemon
         - ./gradlew bootRun &
     artifacts:
         paths:
@@ -48,7 +50,7 @@ gatling-test:
 gradle-repackage:
     stage: package
     script:
-        - ./gradlew bootRepackage -Pprod -x check --no-daemon
+        - ./gradlew bootRepackage -Pprod -x check -PnodeInstall --no-daemon
     artifacts:
         paths:
             - build/libs/*.war
