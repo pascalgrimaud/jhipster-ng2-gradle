@@ -10,8 +10,6 @@ stages:
     - build
     - test
     - package
-    - release
-    - deploy
 
 before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -33,7 +31,9 @@ gradle-front-test:
     stage: test
     script:
         - ./gradlew yarn_test -PnodeInstall --no-daemon
-
+    artifacts:
+        paths:
+            - build/test-results/karma/*
 gatling-test:
     stage: test
     allow_failure: true
